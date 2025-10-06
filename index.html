@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Validación</title>
+    <link rel="stylesheet" href="Ejercicio Java.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <header>
+                <h1>Formulario de Registro</h1>
+                <p class="subtitle">Ingresa tus datos personales</p>
+            </header>
+            
+            <form id="userForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" placeholder="Ingresa tu nombre">
+                    <div class="error" id="nombreError">El nombre no puede estar vacío</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="apellidos">Apellidos:</label>
+                    <input type="text" id="apellidos" placeholder="Ingresa tus apellidos">
+                    <div class="error" id="apellidosError">Los apellidos no pueden estar vacíos</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edad">Edad:</label>
+                    <input type="number" id="edad" placeholder="Ingresa tu edad">
+                    <div class="error" id="edadError">La edad debe ser un número positivo mayor a 0</div>
+                </div>
+                
+                <button type="submit">Enviar Datos</button>
+                <div class="success-message" id="successMessage">¡Formulario enviado correctamente!</div>
+            </form>
+        </div>
+        
+        <div class="display-section">
+            <div class="placeholder" id="placeholder">
+                <h2>Aquí se mostrarán tus datos</h2>
+                <p>Completa el formulario y haz clic en "Enviar Datos"</p>
+            </div>
+            
+            <div class="info-box" id="infoBox">
+                <h3 class="info-title">Información del Usuario</h3>
+                <div class="info-item">
+                    <span class="info-label">Nombre:</span> <span id="displayNombre"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Apellidos:</span> <span id="displayApellidos"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Edad:</span> <span id="displayEdad"></span>
+                </div>
+                <button class="close-btn" id="closeBtn">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("userForm");
+        const placeholder = document.getElementById("placeholder");
+        const infoBox = document.getElementById("infoBox");
+        const closeBtn = document.getElementById("closeBtn");
+        const nombreError = document.getElementById("nombreError");
+        const apellidosError = document.getElementById("apellidosError");
+        const edadError = document.getElementById("edadError");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const nombre = document.getElementById("nombre").value.trim();
+            const apellidos = document.getElementById("apellidos").value.trim();
+            const edad = parseInt(document.getElementById("edad").value);
+
+            nombreError.style.display = "none";
+            apellidosError.style.display = "none";
+            edadError.style.display = "none";
+            let esValido = true;
+
+            if (nombre === "") {
+                nombreError.style.display = "block";
+                esValido = false;
+            }
+
+            if (apellidos === "") {
+                apellidosError.style.display = "block";
+                esValido = false;
+            }
+
+            if (isNaN(edad) || edad <= 0) {
+                edadError.style.display = "block";
+                esValido = false;
+            }
+
+            if (!esValido) {
+                return;
+            }
+
+            document.getElementById("displayNombre").textContent = nombre;
+            document.getElementById("displayApellidos").textContent = apellidos;
+            document.getElementById("displayEdad").textContent = edad;
+            placeholder.style.display = "none";
+            infoBox.style.display = "block";
+        });
+
+        closeBtn.addEventListener("click", () => {
+            infoBox.style.display = "none";
+            placeholder.style.display = "block";
+            form.reset();
+            document.getElementById("nombre").focus();
+        });
+    </script>
+</body>
+</html>
